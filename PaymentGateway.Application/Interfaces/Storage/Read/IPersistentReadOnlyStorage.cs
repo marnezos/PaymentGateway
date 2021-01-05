@@ -1,10 +1,12 @@
 ﻿
+using System;
+
 namespace PaymentGateway.Application.Interfaces.Storage.Read
 {
-    public interface IPersistentReadOnlyStorage
+    public interface IPersistentReadOnlyStorage: IDisposable
     {
-        ICurrencyReadRepository CurrencyReadRepository { get; }
+        ICurrencyReadOnlyRepository CurrencyReadRepository { get; }
         IMerchantReadRepository MerchantReadRepository { get; }
-        IPaymentRequestReadRepository PaymentRequestReadRepository { get; }
+        IPaymentRequestReadOnlyRepository PaymentRequestReadRepository { get; }
     }
 }

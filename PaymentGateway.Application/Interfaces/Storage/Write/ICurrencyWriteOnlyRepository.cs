@@ -2,7 +2,7 @@
 
 namespace PaymentGateway.Application.Interfaces.Storage.Write
 {
-    public interface ICurrencyWriteRepository : IWriteRepository<Currency>
+    public interface ICurrencyWriteOnlyRepository : IWriteRepository<Currency>
     {
     }
 }

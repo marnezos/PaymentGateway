@@ -1,9 +1,11 @@
-﻿namespace PaymentGateway.Application.Interfaces.Storage.Write
+﻿using System;
+
+namespace PaymentGateway.Application.Interfaces.Storage.Write
 {
-    public interface IPeristentWriteOnlyStorage
+    public interface IPeristentWriteOnlyStorage: IDisposable
     {
-        ICurrencyWriteRepository CurrencyWriteRepository { get; }
+        ICurrencyWriteOnlyRepository CurrencyWriteRepository { get; }
         IMerchantWriteRepository MerchantWriteRepository { get; }
-        IPaymentRequestWriteRepository PaymentRequestWriteRepository { get; }
+        IPaymentRequestWriteOnlyRepository PaymentRequestWriteRepository { get; }
     }
 }

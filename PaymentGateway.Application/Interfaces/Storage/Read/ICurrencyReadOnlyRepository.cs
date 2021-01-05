@@ -2,7 +2,7 @@
 
 namespace PaymentGateway.Application.Interfaces.Storage.Read
 {
-    public interface ICurrencyReadRepository:IReadRepository<Currency>
+    public interface ICurrencyReadOnlyRepository:IReadRepository<Currency>
     {
     }
 }

@@ -19,6 +19,9 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
         [Required, StringLength(512)]
         public virtual string MerchantUniqueRequestId { get; set; }
 
+        [Required, StringLength(512)]
+        public virtual string GatewayUniqueRequestId { get; set; }
+
         [Required, StringLength(30)]
         public virtual string CardNumber { get; set; }
 
