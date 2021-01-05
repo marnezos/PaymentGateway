@@ -29,5 +29,11 @@ namespace PaymentGateway.UnitTests.Domain.Economics
             new MoneyAmount(null, -0.01M);
         }
 
+        [TestMethod]
+        public void Should_CovertCorrectlyToString_WhenAValidMoneyAmountIsGiven()
+        {
+            MoneyAmount moneyAmount = new MoneyAmount(_euros, 42.12M);
+            Assert.AreEqual("1-EUR-42.12", moneyAmount.ToString());
+        }
     }
 }

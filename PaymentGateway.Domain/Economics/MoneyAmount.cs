@@ -1,6 +1,8 @@
 ﻿using PaymentGateway.Domain.Common;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
 
 namespace PaymentGateway.Domain.Economics
 {
@@ -35,6 +37,10 @@ namespace PaymentGateway.Domain.Economics
         {
             yield return Amount;
             yield return Currency;
+        }
+        public override string ToString()
+        {
+            return string.Join('-', Currency.ToString(), Amount.ToString(CultureInfo.InvariantCulture));
         }
     }
 }

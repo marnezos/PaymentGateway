@@ -22,6 +22,11 @@ namespace PaymentGateway.UnitTests.Domain.Economics
             ValidationResults validationResults = currency.Validate();
             Assert.IsTrue(validationResults.HasErrors);
         }
-
+        [TestMethod]
+        public void Should_CovertCorrectlyToString_WhenAValidCurrencyIsGiven()
+        {
+            Currency currency = new Currency(1, "EUR");
+            Assert.AreEqual("1-EUR", currency.ToString());
+        }
     }
 }

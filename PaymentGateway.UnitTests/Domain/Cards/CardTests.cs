@@ -83,5 +83,13 @@ namespace PaymentGateway.UnitTests.Domain.Cards
             Card card = new Card("11112222", 1, (ushort)DateTime.Now.Year, "001");
             Assert.IsNotNull(card);
         }
+
+
+        [TestMethod]
+        public void Should_CovertCorrectlyToString_WhenAValidCardIsGiven()
+        {
+            Card card = new Card("11112222", 1, (ushort)DateTime.Now.Year, "001");
+            Assert.AreEqual($"11112222-{DateTime.Now.Year}-01-001", card.ToString());
+        }
     }
 }

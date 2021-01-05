@@ -2,6 +2,7 @@
 using PaymentGateway.Domain.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace PaymentGateway.Domain.Cards
 {
@@ -66,6 +67,17 @@ namespace PaymentGateway.Domain.Cards
             {
                 throw new ArgumentOutOfRangeException("cvv", "Invalid security (cvv) contents. CVV must only contain digits.");
             }
+
+            Number = number;
+            ExpirationYear = expirationYear;
+            ExpirationMonth = expirationMonth;
+            CVV = cvv;
+
+        }
+
+        public override string ToString()
+        {
+            return string.Join('-', Number, ExpirationYear.ToString().PadLeft(4, '0'), ExpirationMonth.ToString().PadLeft(2, '0'), CVV);
         }
 
 

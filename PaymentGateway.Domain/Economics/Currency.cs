@@ -21,5 +21,9 @@ namespace PaymentGateway.Domain.Economics
             }
             return validationResults;
         }
+        public override string ToString()
+        {
+            return string.Join('-',Id.ToString(), Name);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PaymentGateway.Domain.Common;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace PaymentGateway.Domain.Merchants
@@ -14,8 +15,9 @@ namespace PaymentGateway.Domain.Merchants
 
         public Merchant() { }
 
-        public Merchant(string name, string email)
+        public Merchant(int id, string name, string email)
         {
+            Id = id;
             Name = name;
             Email = email;
         }
@@ -40,6 +42,11 @@ namespace PaymentGateway.Domain.Merchants
                 validationResults.AddValidationError("Merchant's email is not valid.");
             }
             return validationResults;
+        }
+
+        public override string ToString()
+        {
+            return string.Join('-', Id.ToString(), Name, Email);
         }
     }
 }
