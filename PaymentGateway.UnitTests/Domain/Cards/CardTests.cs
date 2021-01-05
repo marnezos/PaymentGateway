@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PaymentGateway.Domain.Cards;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PaymentGateway.UnitTests.Domain.Cards
 {

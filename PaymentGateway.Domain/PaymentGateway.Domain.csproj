@@ -5,10 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Economics\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Shoppers\" />
-    <Folder Include="Payments\" />
   </ItemGroup>
 
 </Project>
