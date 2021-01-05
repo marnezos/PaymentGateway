@@ -26,6 +26,15 @@ namespace PaymentGateway.UnitTests.Domain.Merchants
             Assert.IsTrue(validationResults.HasErrors);
         }
 
+        [TestMethod]
+        public void Should_ReturnValidationError_When_AMerchantWithAnVeryLongNameAndAValidEmailIsCreated()
+        {
+            Merchant merchant = new Merchant(1, new string('x',51), "supermerchant@example.com");
+
+            var validationResults = merchant.Validate();
+
+            Assert.IsTrue(validationResults.HasErrors);
+        }
 
         [TestMethod]
         public void Should_ReturnValidationError_When_AMerchantWithANameAndAnInvalidEmailIsCreated()
@@ -67,6 +76,15 @@ namespace PaymentGateway.UnitTests.Domain.Merchants
             Assert.IsTrue(validationResults.HasErrors);
         }
 
+        [TestMethod]
+        public void Should_ReturnValidationError_When_AMerchantWithoutANameAndAnVeryLongEmailIsCreated()
+        {
+            Merchant merchant = new Merchant(1, "supermerchant", $"{new string('x', 244)}@example.com");
+
+            var validationResults = merchant.Validate();
+
+            Assert.IsTrue(validationResults.HasErrors);
+        }
 
         [TestMethod]
         public void Should_CovertCorrectlyToString_WhenAValidMerchantIsGiven()

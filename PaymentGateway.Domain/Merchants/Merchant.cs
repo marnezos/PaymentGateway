@@ -30,11 +30,19 @@ namespace PaymentGateway.Domain.Merchants
             {
                 validationResults.AddValidationError("Merchant's name cannot be empty.");
             }
+            else if (Name.Length > 50)
+            {
+                validationResults.AddValidationError("Merchant's name may not be longer than 50 characters.");
+            }
 
             //Email must not be empty
             if (Email == string.Empty)
             {
                 validationResults.AddValidationError("Merchant's email cannot be empty.");
+            } 
+            else if (Email.Length > 255)
+            {
+                validationResults.AddValidationError("Merchant's email may not be longer than 255 characters.");
             }
             else if (!Regex.IsMatch(Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
             {
