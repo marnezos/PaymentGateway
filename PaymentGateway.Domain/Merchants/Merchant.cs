@@ -3,6 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace PaymentGateway.Domain.Merchants
 {
+
+    /// <summary>
+    /// Any merchant that may use our gateway.
+    /// </summary>
     public class Merchant : Entity
     {
         public string Name { get; set; }
