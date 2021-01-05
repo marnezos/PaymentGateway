@@ -59,5 +59,12 @@ namespace PaymentGateway.UnitTests.Domain.PaymentRequests
             Assert.IsFalse(paymentRequest.IsValid);
         }
 
+        [TestMethod]
+        public void Should_ReturnValidationErrors_When_APaymentRequestWithAVeryLongRequestIdIsGiven()
+        {
+            PaymentRequest paymentRequest = new PaymentRequest(new string('x',513), _merchant, _card, _amount, DateTime.Parse("2000-01-01 01:02:03"));
+            Assert.IsFalse(paymentRequest.IsValid);
+        }
+
     }
 }

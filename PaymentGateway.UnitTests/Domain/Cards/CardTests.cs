@@ -29,6 +29,13 @@ namespace PaymentGateway.UnitTests.Domain.Cards
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "A card number with 31 digits was inappropriately allowed.")]
+        public void Should_NotAllowACardWithInvalidNumber_When_ACardWithAVeryLongNumberIsRequested()
+        {
+            new Card(new string('1',31), 1, (ushort)DateTime.Now.Year, "123");
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException), "A card number with 0 as expiration month was inappropriately allowed.")]
         public void Should_NotAllowACardInvalidExpirationMonth_When_ACardWith0AsExpirationMonthIsRequested()
         {

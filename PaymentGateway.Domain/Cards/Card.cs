@@ -47,6 +47,10 @@ namespace PaymentGateway.Domain.Cards
             {
                 throw new ArgumentOutOfRangeException("number", "Invalid card number. Card numbers should only contain digits.");
             }
+            else if (number.Length > 30)
+            {
+                throw new ArgumentOutOfRangeException("number", "Invalid card number. Card number length may not exceed 30 characters.");
+            }
 
             if (expirationMonth < 1 || expirationMonth > 12)
             {

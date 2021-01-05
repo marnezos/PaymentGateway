@@ -17,11 +17,23 @@ namespace PaymentGateway.Domain.Payments
         public MoneyAmount Amount { get; set; }
         public Card Card { get; set; }
         public Merchant Merchant { get; set; }
+
+        /// <summary>
+        /// Maximum length 512.
+        /// </summary>
         public string MerchantUniqueRequestId { get; set; }
         public DateTime Timestamp { get; set; }
 
         public PaymentRequest() { }
 
+        /// <summary>
+        /// Instantiates a new payment request object
+        /// </summary>
+        /// <param name="merchantUniqueRequestId">Any string that helps identify a payment request uniquely. Maximum length 512.</param>
+        /// <param name="merchant">The merchant requesting the payment.</param>
+        /// <param name="card">Card to charge.</param>
+        /// <param name="amount">Amount to charge.</param>
+        /// <param name="timestamp">Request timestamp.</param>
         public PaymentRequest(string merchantUniqueRequestId, Merchant merchant, Card card, MoneyAmount amount, DateTime timestamp)
         {
             MerchantUniqueRequestId = merchantUniqueRequestId;
@@ -34,8 +46,8 @@ namespace PaymentGateway.Domain.Payments
         public string UniqueHash
         {
             get
-            {               
-                string hashable = string.Join('-',  Id.ToString(),
+            {
+                string hashable = string.Join('-', Id.ToString(),
                                                     MerchantUniqueRequestId,
                                                     Merchant.ToString(),
                                                     Card.ToString(),
@@ -73,6 +85,10 @@ namespace PaymentGateway.Domain.Payments
             if (string.IsNullOrEmpty(MerchantUniqueRequestId))
             {
                 validationResults.AddValidationError("MerchantUniqueRequestId is empty. A payment request requires a merchant unique request Id.");
+            }
+            else if (MerchantUniqueRequestId.Length > 512)
+            {
+                validationResults.AddValidationError("MerchantUniqueRequestId may not be longer than 512 chars.");
             }
 
             return validationResults;
