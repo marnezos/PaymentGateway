@@ -5,11 +5,13 @@ using PaymentGateway.Domain.Merchants;
 using System.Security.Cryptography;
 using System;
 using System.Text;
-using System.Linq;
 using PaymentGateway.Domain.Helpers;
 
 namespace PaymentGateway.Domain.Payments
 {
+    /// <summary>
+    /// The main transactional entity for this context. An aggregate root that holds all necessary info for fulfilling a payment request.
+    /// </summary>
     public class PaymentRequest : Entity
     {
         public MoneyAmount Amount { get; set; }
