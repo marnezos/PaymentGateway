@@ -22,7 +22,7 @@ namespace PaymentGateway.UnitTests.Domain.Helpers
 
 
         [TestMethod]
-        public void Should_CorrectlyDetectAStringContainingDigitsAndNumber_When_AnIntegerMixedWithLettersIsGivenAsString()
+        public void Should_CorrectlyDetectAStringNotContainingOnlyDigits_When_AnIntegerMixedWithLettersIsGivenAsString()
         {
             string digits = "1234567890A";
 
@@ -32,7 +32,7 @@ namespace PaymentGateway.UnitTests.Domain.Helpers
         }
 
         [TestMethod]
-        public void Should_CorrectlyDetectAStringContainingDigitsAndNumber_When_AnIntegerMixedWithSpacesIsGivenAsString()
+        public void Should_CorrectlyDetectAStringNotContainingOnlyDigits_When_AnIntegerMixedWithSpacesIsGivenAsString()
         {
             string digits = "1234 5678 90";
 
@@ -40,5 +40,52 @@ namespace PaymentGateway.UnitTests.Domain.Helpers
 
             Assert.IsFalse(hasOnlyDigits);
         }
+
+
+        [TestMethod]
+        public void Should_CorrectlyDetectAStringContainingOnlyLetters_When_OnlyCapitalLettersAreGivenAsInput()
+        {
+            string letters = "ABC";
+            bool hasOnlyLetters = letters.ContainsOnlyLetters();
+
+            Assert.IsTrue(hasOnlyLetters);
+        }
+
+        [TestMethod]
+        public void Should_CorrectlyDetectAStringContainingOnlyLetters_When_OnlyLowerCaseLettersAreGivenAsInput()
+        {
+            string letters = "abc";
+            bool hasOnlyLetters = letters.ContainsOnlyLetters();
+
+            Assert.IsTrue(hasOnlyLetters);
+        }
+
+        [TestMethod]
+        public void Should_CorrectlyDetectAStringNotContainingOnlyLetters_When_NumbersAreGivenAsInput()
+        {
+            string letters = "123";
+            bool hasOnlyLetters = letters.ContainsOnlyLetters();
+
+            Assert.IsFalse(hasOnlyLetters);
+        }
+
+        [TestMethod]
+        public void Should_CorrectlyDetectAStringNotContainingOnlyLetters_When_MixedNumbersAndLettersAreGivenAsInput()
+        {
+            string letters = "AB3";
+            bool hasOnlyLetters = letters.ContainsOnlyLetters();
+
+            Assert.IsFalse(hasOnlyLetters);
+        }
+
+        [TestMethod]
+        public void Should_CorrectlyDetectAStringNotContainingOnlyLetters_When_MixedLettersAndSpacesAreGivenAsInput()
+        {
+            string letters = "AB ";
+            bool hasOnlyLetters = letters.ContainsOnlyLetters();
+
+            Assert.IsFalse(hasOnlyLetters);
+        }
+
     }
 }

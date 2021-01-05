@@ -22,6 +22,40 @@ namespace PaymentGateway.UnitTests.Domain.Economics
             ValidationResults validationResults = currency.Validate();
             Assert.IsTrue(validationResults.HasErrors);
         }
+
+        [TestMethod]
+        public void Should_ReturnValidationErrors_When_ACurrencyWithAShortNameIsRequested()
+        {
+            Currency currency = new Currency(0, "XX");
+            ValidationResults validationResults = currency.Validate();
+            Assert.IsTrue(validationResults.HasErrors);
+        }
+
+        [TestMethod]
+        public void Should_ReturnValidationErrors_When_ACurrencyWithALongNameIsRequested()
+        {
+            Currency currency = new Currency(0, "XXXX");
+            ValidationResults validationResults = currency.Validate();
+            Assert.IsTrue(validationResults.HasErrors);
+        }
+
+        [TestMethod]
+        public void Should_ReturnValidationErrors_When_ACurrencyWithSpacesInNameIsRequested()
+        {
+            Currency currency = new Currency(0, " XX");
+            ValidationResults validationResults = currency.Validate();
+            Assert.IsTrue(validationResults.HasErrors);
+        }
+
+
+        [TestMethod]
+        public void Should_ReturnValidationErrors_When_ACurrencyWithDigitsInNameIsRequested()
+        {
+            Currency currency = new Currency(0, "1XX");
+            ValidationResults validationResults = currency.Validate();
+            Assert.IsTrue(validationResults.HasErrors);
+        }
+
         [TestMethod]
         public void Should_CovertCorrectlyToString_WhenAValidCurrencyIsGiven()
         {

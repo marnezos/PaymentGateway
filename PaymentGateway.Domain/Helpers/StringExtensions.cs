@@ -12,5 +12,15 @@ namespace PaymentGateway.Domain.Helpers
             }
             return true;
         }
+
+        public static bool ContainsOnlyLetters(this string thisString)
+        {
+            foreach (char c in thisString)
+            {
+                if ((c < 'a' || c > 'z') && (c< 'A' || c> 'Z'))
+                    return false;
+            }
+            return true;
+        }
     }
 }
