@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Cards\" />
-    <Folder Include="Merchants\" />
     <Folder Include="Economics\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Shoppers\" />
