@@ -16,6 +16,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.Application"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.Persistence.InMemory", "PaymentGateway.Persistence.InMemory\PaymentGateway.Persistence.InMemory.csproj", "{A7C6F11C-63C4-49C4-9711-51755371822E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.IntegrationTests", "PaymentGateway.IntegrationTests\PaymentGateway.IntegrationTests.csproj", "{72C4160D-4C10-4163-988D-3305CC0B6411}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AA7D862B-E801-4546-849A-3200F32F96E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B10C5138-2B1D-434D-89E6-C1780EC99DA1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{0601AE23-6C70-4066-A2C6-F2511462BEB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,9 +46,20 @@ Global
 		{A7C6F11C-63C4-49C4-9711-51755371822E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7C6F11C-63C4-49C4-9711-51755371822E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7C6F11C-63C4-49C4-9711-51755371822E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72C4160D-4C10-4163-988D-3305CC0B6411}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72C4160D-4C10-4163-988D-3305CC0B6411}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72C4160D-4C10-4163-988D-3305CC0B6411}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72C4160D-4C10-4163-988D-3305CC0B6411}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2E5AB68E-3FEF-44FB-B4E9-72E17F405741} = {B10C5138-2B1D-434D-89E6-C1780EC99DA1}
+		{2E8858D2-DA90-41C6-AD06-AA9F9C12B5E9} = {AA7D862B-E801-4546-849A-3200F32F96E7}
+		{65866478-94A5-4F2B-A66A-52D2094135BD} = {B10C5138-2B1D-434D-89E6-C1780EC99DA1}
+		{A7C6F11C-63C4-49C4-9711-51755371822E} = {0601AE23-6C70-4066-A2C6-F2511462BEB6}
+		{72C4160D-4C10-4163-988D-3305CC0B6411} = {AA7D862B-E801-4546-849A-3200F32F96E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9AC889EF-CD99-4EA6-AEF6-E9455CC5C69E}

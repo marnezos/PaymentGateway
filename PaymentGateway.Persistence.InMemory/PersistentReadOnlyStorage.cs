@@ -10,11 +10,11 @@ namespace PaymentGateway.Persistence.InMemory
     {
         private readonly bool _disposed = false;
         private readonly PaymentGatewayContext _dbContext;
-        private readonly PersistentInfrastructure _infrastructure;
 
-        public PersistentReadOnlyStorage(PersistentInfrastructure infrastructure)
+        public PersistentReadOnlyStorage(InMemoryPersistenceOptions options)
         {
-            _dbContext = infrastructure.GetContext();
+            _dbContext = new PaymentGatewayContext(options);
+            _dbContext.Database.EnsureCreated();
         }
 
         public ICurrencyReadOnlyRepository CurrencyReadRepository => new CurrencyReadOnlyRepository(_dbContext);
