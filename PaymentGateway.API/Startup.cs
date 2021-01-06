@@ -20,6 +20,9 @@ using Rebus.Persistence.InMem;
 using Rebus.Config;
 using PaymentGateway.Application.Interfaces.Storage.Write;
 using PaymentGateway.Application.Interfaces.Storage.Read;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Logging;
 
 namespace PaymentGateway.API
 {
@@ -41,6 +44,7 @@ namespace PaymentGateway.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PaymentGateway.API", Version = "v1" });
             });
+            services.AddLogging();
 
             services.AddRebus(configure => configure
                 .Logging(l => l.None())
@@ -59,7 +63,38 @@ namespace PaymentGateway.API
                 InMemoryDbName = "memdb"
             }));
 
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "https://localhost:4999"; //is4 server base url (ToDo: config)
+                    options.RequireHttpsMetadata = false; //Development, allow http 
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false
+                    };
+                    options.IncludeErrorDetails = true;
+
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("PaymentGatewayScope", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("scope", "paymentgateway.api"); //whole api scope
+                });
+                options.AddPolicy("MerchantsOnly", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("scope", "paymentgateway.api");
+                    policy.RequireClaim(ClaimTypes.Role, "paymentgateway.merchant"); //merchant role
+                });
+            });
+
+            IdentityModelEventSource.ShowPII = true;
         }
+
+    
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -75,11 +110,14 @@ namespace PaymentGateway.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers()
+                .RequireAuthorization("PaymentGatewayScope"); //Our API is available only to claiming scope: paymentgateway.api
             });
 
             app.ApplicationServices.UseRebus();

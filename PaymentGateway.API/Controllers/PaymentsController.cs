@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PaymentGateway.Application.DTOs.Payments;
 using Rebus;
 using Rebus.Bus;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PaymentGateway.API.Controllers
@@ -18,8 +20,12 @@ namespace PaymentGateway.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "MerchantsOnly")]
         public async Task<ProcessedPaymentStatusDto> PostAsync([FromBody] PaymentProcessRequestDto request)
         {
+            ClaimsPrincipal currentUser = User;
+            var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
+            var serial = currentUser.FindFirst(ClaimTypes.SerialNumber).Value;
 
             var reply = await _bus.SendRequest<ProcessedPaymentStatusDto>(request, null, TimeSpan.FromSeconds(10));
 

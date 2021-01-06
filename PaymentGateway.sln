@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.API", "PaymentGateway.API\PaymentGateway.API.csproj", "{59D43AC6-D579-411F-968A-AFF9AF95D053}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGateway.IdentityServer", "PaymentGateway.IdentityServer\PaymentGateway.IdentityServer.csproj", "{431E613C-0C33-449F-A29F-C74F809BE877}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{59D43AC6-D579-411F-968A-AFF9AF95D053}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59D43AC6-D579-411F-968A-AFF9AF95D053}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59D43AC6-D579-411F-968A-AFF9AF95D053}.Release|Any CPU.Build.0 = Release|Any CPU
+		{431E613C-0C33-449F-A29F-C74F809BE877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{431E613C-0C33-449F-A29F-C74F809BE877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{431E613C-0C33-449F-A29F-C74F809BE877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{431E613C-0C33-449F-A29F-C74F809BE877}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
