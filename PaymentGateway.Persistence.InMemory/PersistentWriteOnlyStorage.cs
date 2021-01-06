@@ -1,5 +1,6 @@
 ﻿using PaymentGateway.Application.Interfaces.Storage.Write;
 using PaymentGateway.Persistence.InMemory.Context;
+using PaymentGateway.Persistence.InMemory.Repositories.Payments;
 using System;
 
 namespace PaymentGateway.Persistence.InMemory
@@ -19,7 +20,7 @@ namespace PaymentGateway.Persistence.InMemory
 
         public IMerchantWriteRepository MerchantWriteRepository => throw new NotImplementedException();
 
-        public IPaymentRequestWriteOnlyRepository PaymentRequestWriteRepository => throw new NotImplementedException();
+        public IPaymentRequestWriteOnlyRepository PaymentRequestWriteRepository => new PaymentRequestWriteOnlyRepository(_dbContext);
 
         //ToDo: Honor DRY consolidating Read & Write
         public void Dispose()

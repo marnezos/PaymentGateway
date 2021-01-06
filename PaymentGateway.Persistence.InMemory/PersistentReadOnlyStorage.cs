@@ -3,6 +3,7 @@ using PaymentGateway.Application.Interfaces.Storage.Read;
 using PaymentGateway.Persistence.InMemory.Context;
 using PaymentGateway.Persistence.InMemory.Repositories.Economics;
 using PaymentGateway.Persistence.InMemory.Repositories.Merchants;
+using PaymentGateway.Persistence.InMemory.Repositories.Payments;
 using System;
 
 namespace PaymentGateway.Persistence.InMemory
@@ -22,7 +23,7 @@ namespace PaymentGateway.Persistence.InMemory
 
         public IMerchantReadOnlyRepository MerchantReadRepository => new MerchantReadOnlyRepository(_dbContext);
 
-        public IPaymentRequestReadOnlyRepository PaymentRequestReadRepository => throw new System.NotImplementedException();
+        public IPaymentRequestReadOnlyRepository PaymentRequestReadRepository => new PaymentRequestReadOnlyRepository(_dbContext);
 
         public void Dispose()
         {

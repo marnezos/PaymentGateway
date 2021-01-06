@@ -20,6 +20,11 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Merchants
             return this;
         }
 
-
+        public override void LoadDomainObject(Domain.Merchants.Merchant domainObject)
+        {
+            Id = domainObject.Id;
+            Name = domainObject.Name;
+            Email = domainObject.Email;
+        }
     }
 }

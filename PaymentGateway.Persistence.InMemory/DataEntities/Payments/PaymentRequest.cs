@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
 {
-    public class PaymentRequest:DataEntity<Domain.Payments.PaymentRequest>
+    public class PaymentRequest : DataEntity<Domain.Payments.PaymentRequest>
     {
         [Key]
         public virtual int Id { get; set; }
@@ -58,12 +58,26 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
                                                       new Domain.Economics.MoneyAmount(paymentRequest.Currency, paymentRequest.Amount),
                                                       paymentRequest.Timestamp);
         }
-        
+
 
         public override Domain.Payments.PaymentRequest GetDomainObject()
         {
             return this;
         }
 
+        public override void LoadDomainObject(Domain.Payments.PaymentRequest domainObject)
+        {
+            Id = domainObject.Id;
+            MerchantId = domainObject.Merchant.Id;
+            CurrencyId = domainObject.Amount.Currency.Id;
+            MerchantUniqueRequestId = domainObject.MerchantUniqueRequestId;
+            GatewayUniqueRequestId = domainObject.UniqueHash;
+            CardNumber = domainObject.Card.Number;
+            CardExpirationMonth = domainObject.Card.ExpirationMonth;
+            CardExpirationYear = domainObject.Card.ExpirationYear;
+            CardCvv = domainObject.Card.CVV;
+            Amount = domainObject.Amount.Amount;
+            Timestamp = domainObject.Timestamp;
+        }
     }
 }

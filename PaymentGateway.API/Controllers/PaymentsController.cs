@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PaymentGateway.API.ViewModels.Payments;
 using PaymentGateway.Application.DTOs.Payments;
 using Rebus;
 using Rebus.Bus;
@@ -21,13 +22,16 @@ namespace PaymentGateway.API.Controllers
 
         [HttpPost]
         [Authorize(Policy = "MerchantsOnly")]
-        public async Task<ProcessedPaymentStatusDto> PostAsync([FromBody] PaymentProcessRequestDto request)
+        public async Task<ProcessedPaymentStatusDto> PostAsync([FromBody] ProcessPaymentRequest request)
         {
             ClaimsPrincipal currentUser = User;
-            var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
-            var serial = currentUser.FindFirst(ClaimTypes.SerialNumber).Value;
+            string serial = currentUser.FindFirst(ClaimTypes.SerialNumber).Value;
 
-            var reply = await _bus.SendRequest<ProcessedPaymentStatusDto>(request, null, TimeSpan.FromSeconds(10));
+            PaymentProcessRequestDto requestDto = request;
+            requestDto.MerchantId = int.Parse(serial);
+
+            //Assume max timeout @ 60 secs
+            ProcessedPaymentStatusDto reply = await _bus.SendRequest<ProcessedPaymentStatusDto>(requestDto, null, TimeSpan.FromSeconds(60));
 
             return reply;
         }

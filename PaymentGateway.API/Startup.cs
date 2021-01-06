@@ -23,6 +23,7 @@ using PaymentGateway.Application.Interfaces.Storage.Read;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Logging;
+using PaymentGateway.Application.Services.Bank;
 
 namespace PaymentGateway.API
 {
@@ -53,7 +54,10 @@ namespace PaymentGateway.API
                 .Routing(r => r.TypeBased().MapAssemblyOf<PaymentProcessRequestDto>(Configuration.GetValue<string>("SBQueueName")))
             );
 
+            services.AutoRegisterHandlersFromAssemblyOf<AcquiringBankMessageHandler>();
             services.AutoRegisterHandlersFromAssemblyOf<ProcessPaymentService>();
+
+
             services.AddScoped<IPeristentWriteOnlyStorage>(x => new Persistence.InMemory.PersistentWriteOnlyStorage(new Persistence.InMemory.InMemoryPersistenceOptions()
             {
                 InMemoryDbName = "memdb"

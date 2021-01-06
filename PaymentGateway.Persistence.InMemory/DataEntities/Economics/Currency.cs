@@ -19,5 +19,10 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Economics
             return this;
         }
 
+        public override void LoadDomainObject(Domain.Economics.Currency domainObject)
+        {
+            Id = domainObject.Id;
+            Name = domainObject.Name;
+        }
     }
 }
