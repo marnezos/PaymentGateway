@@ -2,7 +2,7 @@
 
 namespace PaymentGateway.Application.Interfaces.Storage.Read
 {
-    public interface IMerchantReadRepository:IReadRepository<Merchant>
+    public interface IMerchantReadOnlyRepository : IReadRepository<Merchant>
     {
     }
 }

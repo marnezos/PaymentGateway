@@ -13,9 +13,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\Merchants\" />
-    <Folder Include="Repositories\Payments\" />
-  </ItemGroup>
-
 </Project>

@@ -21,7 +21,8 @@ namespace PaymentGateway.Persistence.InMemory.Repositories
 
         public  async Task<T> GetByIdAsync(int id)
         {
-            return (T)await Aggregate.FirstAsync(a => a.Id == id);
+            var entity = await Aggregate.FirstOrDefaultAsync(a => a.Id == id);
+            return entity.GetDomainObject();
         }
 
         public abstract IQueryable<DBEntity> Aggregate { get; }

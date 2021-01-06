@@ -13,7 +13,8 @@ namespace PaymentGateway.Persistence.InMemory.Repositories.Economics
 
         public async Task<Currency> GetByNameAsync(string currencyName)
         {
-            return await Aggregate.FirstOrDefaultAsync(c => c.Name == currencyName);
+            var currency =  await Aggregate.FirstOrDefaultAsync(c => c.Name == currencyName);
+            return currency.GetDomainObject();
         }
 
         public override IQueryable<DataEntities.Economics.Currency> Aggregate

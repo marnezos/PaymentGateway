@@ -2,15 +2,11 @@
 
 namespace PaymentGateway.Persistence.InMemory.DataEntities
 {
-    public class DataEntity<T>
+    public abstract class DataEntity<T>
     {
         [Key]
         public virtual int Id { get; set; }
 
-        //Promise conversion
-        public static implicit operator T(DataEntity<T> baseEntity)
-        {
-            return (T)baseEntity;
-        }
+        public abstract T GetDomainObject();
     }
 }

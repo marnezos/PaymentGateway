@@ -8,9 +8,15 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Economics
         [Required, StringLength(3)]
         public virtual string Name { get; set; }
 
-        public static implicit operator Domain.Economics.Currency (Currency currency)
+
+        public static implicit operator Domain.Economics.Currency(Currency currency)
         {
             return new Domain.Economics.Currency(currency.Id, currency.Name);
+        }
+
+        public override Domain.Economics.Currency GetDomainObject()
+        {
+            return this;
         }
 
     }
