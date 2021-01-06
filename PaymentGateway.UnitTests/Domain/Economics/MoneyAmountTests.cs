@@ -7,7 +7,7 @@ namespace PaymentGateway.UnitTests.Domain.Economics
     [TestClass]
     public class MoneyAmountTests
     {
-        private Currency _euros = new Currency(1, "EUR");
+        private readonly Currency _euros = new Currency(1, "EUR");
         [TestMethod]
         public void Should_CorrectlyInstantiateAnAmountOfMoney_When_ACurrencyAndAPositiveAmountIsGiven()
         {

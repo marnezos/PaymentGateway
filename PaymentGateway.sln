@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B10C5138-2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{0601AE23-6C70-4066-A2C6-F2511462BEB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.API", "PaymentGateway.API\PaymentGateway.API.csproj", "{59D43AC6-D579-411F-968A-AFF9AF95D053}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{72C4160D-4C10-4163-988D-3305CC0B6411}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72C4160D-4C10-4163-988D-3305CC0B6411}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72C4160D-4C10-4163-988D-3305CC0B6411}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59D43AC6-D579-411F-968A-AFF9AF95D053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59D43AC6-D579-411F-968A-AFF9AF95D053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59D43AC6-D579-411F-968A-AFF9AF95D053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59D43AC6-D579-411F-968A-AFF9AF95D053}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
