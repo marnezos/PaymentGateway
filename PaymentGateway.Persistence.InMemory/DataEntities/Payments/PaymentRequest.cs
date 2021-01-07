@@ -59,6 +59,24 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
                                                       paymentRequest.Timestamp);
         }
 
+        public static implicit operator PaymentRequest(Domain.Payments.PaymentRequest paymentRequest)
+        {
+            return new PaymentRequest()
+            {
+                Amount = paymentRequest.Amount.Amount,
+                CardCvv = paymentRequest.Card.CVV,
+                CardExpirationMonth = paymentRequest.Card.ExpirationMonth,
+                CardExpirationYear = paymentRequest.Card.ExpirationYear,
+                CardNumber = paymentRequest.Card.Number,
+                CurrencyId = paymentRequest.Amount.Currency.Id,
+                GatewayUniqueRequestId = paymentRequest.UniqueHash,
+                Id = paymentRequest.Id,
+                MerchantId = paymentRequest.Merchant.Id,
+                MerchantUniqueRequestId = paymentRequest.MerchantUniqueRequestId,
+                Timestamp = paymentRequest.Timestamp
+            };
+        }
+
 
         public override Domain.Payments.PaymentRequest GetDomainObject()
         {

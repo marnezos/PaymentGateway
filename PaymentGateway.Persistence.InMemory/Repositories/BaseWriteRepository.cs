@@ -26,6 +26,7 @@ namespace PaymentGateway.Persistence.InMemory.Repositories
             _db.Entry(dbEntity).State = entity.Id == 0 ?
                                EntityState.Added :
                                EntityState.Modified;
+
             await _db.SaveChangesAsync();
         }
 

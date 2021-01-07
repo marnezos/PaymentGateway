@@ -26,7 +26,8 @@ namespace PaymentGateway.Application.Services.Bank
             {
                 GatewayUniqueRequestId = request.GatewayUniqueRequestId,
                 ResponseId = Guid.NewGuid(),
-                Successful = success
+                Successful = success,
+                Timestamp = DateTime.Now
             };
         }
     }

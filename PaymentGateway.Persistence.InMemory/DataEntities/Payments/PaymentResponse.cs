@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
 {
-    public class PaymentResponse
+    public class PaymentResponse : DataEntity<Domain.Payments.PaymentResponse>
     {
         [Key]
         public virtual int Id { get; set; }
@@ -24,5 +24,25 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
         [Required]
         public virtual DateTime TimeStamp { get; set; }
 
+        public static implicit operator Domain.Payments.PaymentResponse(PaymentResponse paymentResponse)
+        {
+            return new Domain.Payments.PaymentResponse(paymentResponse.PaymentRequest, 
+                                                       paymentResponse.ResponseId, 
+                                                       paymentResponse.Successful, 
+                                                       paymentResponse.TimeStamp);
+        }
+
+        public override Domain.Payments.PaymentResponse GetDomainObject()
+        {
+            return this;
+        }
+
+        public override void LoadDomainObject(Domain.Payments.PaymentResponse domainObject)
+        {
+            PaymentRequest = domainObject.PaymentRequest;
+            ResponseId = domainObject.ResponseId;
+            Successful = domainObject.Successful;
+            TimeStamp = domainObject.TimeStamp;
+        }
     }
 }

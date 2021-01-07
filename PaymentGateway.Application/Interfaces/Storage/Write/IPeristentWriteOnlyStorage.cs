@@ -7,5 +7,6 @@ namespace PaymentGateway.Application.Interfaces.Storage.Write
         ICurrencyWriteOnlyRepository CurrencyWriteRepository { get; }
         IMerchantWriteRepository MerchantWriteRepository { get; }
         IPaymentRequestWriteOnlyRepository PaymentRequestWriteRepository { get; }
+        IPaymentResponseWriteOnlyRepository PaymentResponseWriteRepository { get; }
     }
 }

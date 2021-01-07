@@ -36,6 +36,7 @@ namespace PaymentGateway.API.ViewModels.Payments
         {
             return new PaymentProcessRequestDto()
             {
+                MerchantUniqueRequestId = request.MerchantUniqueRequestId,
                 CurrencyIso4217 = request.CurrencyIso4217,
                 Amount = request.Amount,
                 CardCvv = request.CardCvv,

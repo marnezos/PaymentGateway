@@ -6,8 +6,6 @@ using PaymentGateway.Domain.Cards;
 using PaymentGateway.Domain.Economics;
 using PaymentGateway.Domain.Merchants;
 using PaymentGateway.Domain.Payments;
-using Rebus.Bus;
-using Rebus.Handlers;
 using System;
 using System.Threading.Tasks;
 
@@ -16,7 +14,7 @@ namespace PaymentGateway.Application.Services.Payments
     /// <summary>
     /// Main business functionality
     /// </summary>
-    public class ProcessPaymentService 
+    public class ProcessPaymentService
     {
         private readonly IPersistentReadOnlyStorage _readOnlyStorage;
         private readonly IPeristentWriteOnlyStorage _writeOnlyStorage;
@@ -31,9 +29,10 @@ namespace PaymentGateway.Application.Services.Payments
             _bank = bank;
         }
 
-        public async Task<ProcessedPaymentStatusDto> ProcessPayment (PaymentProcessRequestDto message)
+        public async Task<ProcessedPaymentStatusDto> ProcessPayment(PaymentProcessRequestDto message)
         {
             ProcessedPaymentStatusDto reply = new ProcessedPaymentStatusDto();
+            reply.RequestId = message.MerchantUniqueRequestId;
 
             //1. Retrieve merchant from storage
             Merchant merchant = await _readOnlyStorage.MerchantReadRepository.GetByIdAsync(message.MerchantId);
@@ -59,8 +58,21 @@ namespace PaymentGateway.Application.Services.Payments
             MoneyAmount amount = new MoneyAmount(currency, message.Amount);
             PaymentRequest paymentRequest = new PaymentRequest(message.MerchantUniqueRequestId, merchant, card, amount, DateTime.Now);
 
+            if (!paymentRequest.IsValid)
+            {
+                reply.Success = false;
+                reply.ErrorMessage = string.Join(',',paymentRequest.Validate().ValidationErrors);
+            }
+
             //Store
-            await _writeOnlyStorage.PaymentRequestWriteRepository.SaveAsync(paymentRequest);
+            try
+            {
+                await _writeOnlyStorage.PaymentRequestWriteRepository.SaveAsync(paymentRequest);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             //Retrieve back to ensure correct storage
             PaymentRequest storedRequest = await _readOnlyStorage.PaymentRequestReadRepository
@@ -81,17 +93,20 @@ namespace PaymentGateway.Application.Services.Payments
             else
             {
                 //4. Forward request to the bank
-                DTOs.Banks.PaymentResponseDto bankResponse = await _bank.ProcessPayment(new DTOs.Banks.PaymentRequestDto()
-                {
-
-                });
-
+                DTOs.Banks.PaymentResponseDto bankResponse = await _bank.ProcessPayment(storedRequest);
 
                 //5. Store reply 
+                PaymentResponse paymentResponse = bankResponse;
+                paymentResponse.PaymentRequest = storedRequest;
+                
+                await _writeOnlyStorage.PaymentResponseWriteRepository
+                                            .SaveAsync(paymentResponse);
 
-                //6. Respond to merchant
+                reply.Success = paymentResponse.Successful;
+                reply.ResponseId = paymentResponse.ResponseId;
+                reply.Timestamp = paymentResponse.TimeStamp;
             }
-            return null;
+            return reply;
         }
 
     }

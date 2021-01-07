@@ -22,6 +22,8 @@ namespace PaymentGateway.Persistence.InMemory
 
         public IPaymentRequestWriteOnlyRepository PaymentRequestWriteRepository => new PaymentRequestWriteOnlyRepository(_dbContext);
 
+        public IPaymentResponseWriteOnlyRepository PaymentResponseWriteRepository => new PaymentResponseWriteOnlyRepository(_dbContext);
+
         //ToDo: Honor DRY consolidating Read & Write
         public void Dispose()
         {
