@@ -1,5 +1,8 @@
 ﻿namespace PaymentGateway.Domain.Common
 {
+    /// <summary>
+    /// DDD entities
+    /// </summary>
     public abstract class Entity : IValidateable
     {
         public int Id { get; protected set; }

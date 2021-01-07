@@ -1,6 +1,9 @@
 ﻿
 namespace PaymentGateway.Application.DTOs.Payments.ProcessPayment
 {
+    /// <summary>
+    /// Application requires the following to process a payment.
+    /// </summary>
     public class PaymentProcessRequestDto
     {
         public int MerchantId { get; set; }

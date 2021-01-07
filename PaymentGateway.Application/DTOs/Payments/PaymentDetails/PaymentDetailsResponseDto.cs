@@ -2,6 +2,9 @@
 using PaymentGateway.Domain.Payments;
 using System;
 
+/// <summary>
+/// Application will reply with the following to a payment detail request.
+/// </summary>
 namespace PaymentGateway.Application.DTOs.Payments.PaymentDetails
 {
     public class PaymentDetailsResponseDto

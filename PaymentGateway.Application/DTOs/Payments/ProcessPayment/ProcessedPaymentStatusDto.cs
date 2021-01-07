@@ -3,7 +3,7 @@
 namespace PaymentGateway.Application.DTOs.Payments.ProcessPayment
 {
     /// <summary>
-    /// Message format for the response to the merchant
+    /// Application will output the following after processing a payment request.
     /// </summary>
     public class ProcessedPaymentStatusDto
     {

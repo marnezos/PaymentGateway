@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.Application.Services.Bank
 {
+    /// <summary>
+    /// Will contact the acquiring bank via the bus
+    /// </summary>
     public class AcquiringBankService : IAcquiringBank
     {
         private readonly IBus _bus;

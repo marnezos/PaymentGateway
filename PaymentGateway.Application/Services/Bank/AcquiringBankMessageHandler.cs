@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.Application.Services.Bank
 {
+    /// <summary>
+    /// Messages forwarded to the Bank will arrive here
+    /// </summary>
     public class AcquiringBankMessageHandler : IHandleMessages<PaymentRequestDto>
     {
         private readonly IBus _bus;

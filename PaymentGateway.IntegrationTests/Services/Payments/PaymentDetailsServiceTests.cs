@@ -7,14 +7,9 @@ using PaymentGateway.Application.Interfaces.Storage.Write;
 using PaymentGateway.Application.Services.Bank;
 using PaymentGateway.Application.Services.Payments.PaymentDetails;
 using PaymentGateway.Application.Services.Payments.ProcessPayment;
-using PaymentGateway.Domain.Cards;
-using PaymentGateway.Domain.Economics;
-using PaymentGateway.Domain.Merchants;
-using PaymentGateway.Domain.Payments;
 using PaymentGateway.Persistence.InMemory;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PaymentGateway.IntegrationTests.Services.Payments

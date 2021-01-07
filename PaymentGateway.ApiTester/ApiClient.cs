@@ -11,8 +11,8 @@ namespace PaymentGateway.ApiTester
 {
     public class ApiClient
     {
-        private IList<string> _successfulRequests;
-        private HttpClient _httpClient;
+        private readonly IList<string> _successfulRequests;
+        private readonly HttpClient _httpClient;
         public ApiClient(IList<string> successfulRequests, HttpClient httpClient)
         {
             _successfulRequests = successfulRequests;
@@ -103,7 +103,7 @@ namespace PaymentGateway.ApiTester
                 MerchantUniqueRequestId = _successfulRequests[rand.Next(0, _successfulRequests.Count - 1)]
             };
 
-            string json = JsonConvert.SerializeObject(req);
+            //string json = JsonConvert.SerializeObject(req);
 
             Console.WriteLine($"Requesting Details:{req.MerchantUniqueRequestId}");
 

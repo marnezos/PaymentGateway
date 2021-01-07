@@ -2,6 +2,9 @@
 
 namespace PaymentGateway.Domain.Common
 {
+    /// <summary>
+    /// Describes the validation results for validateble classes
+    /// </summary>
     public class ValidationResults
     {
         public bool HasErrors { get

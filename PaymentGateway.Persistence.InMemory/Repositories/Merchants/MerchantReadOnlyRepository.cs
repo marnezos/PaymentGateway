@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace PaymentGateway.Persistence.InMemory.Repositories.Merchants
 {
+    /// <summary>
+    /// Merchant read only repository (implements the IMerchantReadOnlyRepository as specificed in the application layer)
+    /// </summary>
     public class MerchantReadOnlyRepository : BaseReadRepository<Merchant, DataEntities.Merchants.Merchant>, IMerchantReadOnlyRepository
     {
 

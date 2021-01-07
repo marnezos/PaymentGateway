@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.Application.Services.Payments.PaymentDetails
 {
+    /// <summary>
+    /// Messages for payment details will be handled here 
+    /// </summary>
     public class PaymentDetailsMessageHandler : IHandleMessages<PaymentDetailsRequestDto>
     {
         private readonly IBus _bus;
@@ -20,14 +23,14 @@ namespace PaymentGateway.Application.Services.Payments.PaymentDetails
             _readOnlyStorage = readOnlyStorage;
         }
 
-        public async Task Handle(PaymentDetailsRequestDto request)
+        public async Task Handle(PaymentDetailsRequestDto message)
         {
             PaymentDetailsService service = new PaymentDetailsService(_readOnlyStorage);
             ApplicationMessage<PaymentDetailsResponseDto> response;
             try
             {
                 response = new ApplicationMessage<PaymentDetailsResponseDto>();
-                response.Payload = await service.RetrievePaymentDetails(request);
+                response.Payload = await service.RetrievePaymentDetails(message);
                 response.ServiceSuccess = true;
             }
             catch (Exception ex)

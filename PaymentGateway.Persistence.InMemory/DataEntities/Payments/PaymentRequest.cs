@@ -6,6 +6,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
 {
+    /// <summary>
+    /// DB Model for Paymen Requests
+    /// </summary>
     public class PaymentRequest : DataEntity<Domain.Payments.PaymentRequest>
     {
 

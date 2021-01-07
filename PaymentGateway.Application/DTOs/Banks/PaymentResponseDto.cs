@@ -3,6 +3,9 @@ using System;
 
 namespace PaymentGateway.Application.DTOs.Banks
 {
+    /// <summary>
+    /// Application expects the following model as a return from the bank.
+    /// </summary>
     public class PaymentResponseDto
     {
         public string GatewayUniqueRequestId { get; set; }

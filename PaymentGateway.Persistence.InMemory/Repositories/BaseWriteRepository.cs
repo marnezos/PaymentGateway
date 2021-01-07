@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.Persistence.InMemory.Repositories
 {
+
+    /// <summary>
+    /// Provided basic write functionality (for DRY reasons)
+    /// </summary>
     public abstract class BaseWriteRepository<T, DBEntity> : IWriteRepository<T> 
                                                             where T : Entity
                                                             where DBEntity : DataEntity<T>, new()

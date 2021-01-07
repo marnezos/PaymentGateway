@@ -2,6 +2,9 @@
 
 namespace PaymentGateway.Persistence.InMemory.DataEntities.Economics
 {
+    /// <summary>
+    /// DB Model for Currency
+    /// </summary>
     public class Currency: DataEntity<Domain.Economics.Currency>
     {
 

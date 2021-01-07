@@ -3,6 +3,9 @@ using PaymentGateway.Domain.Helpers;
 
 namespace PaymentGateway.Domain.Economics
 {
+    /// <summary>
+    /// Currency object
+    /// </summary>
     public class Currency : Entity
     {
 

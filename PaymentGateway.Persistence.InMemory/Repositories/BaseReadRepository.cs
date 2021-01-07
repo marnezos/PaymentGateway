@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.Persistence.InMemory.Repositories
 {
+
+    /// <summary>
+    /// Provided basic read functionality (for DRY reasons)
+    /// </summary>
     public abstract class BaseReadRepository<T, DBEntity> : IReadRepository<T> 
                                                             where T : Entity
                                                             where DBEntity : DataEntity<T>

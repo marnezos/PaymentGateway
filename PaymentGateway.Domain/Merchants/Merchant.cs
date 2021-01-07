@@ -1,5 +1,4 @@
 ﻿using PaymentGateway.Domain.Common;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace PaymentGateway.Domain.Merchants

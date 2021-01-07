@@ -12,7 +12,8 @@ using System.Threading.Tasks;
 namespace PaymentGateway.Application.Services.Payments.ProcessPayment
 {
     /// <summary>
-    /// Main business functionality
+    /// One of the two main services. This will process payments.
+    /// 
     /// Assumption: Card details are stored in their entirety. PCI prohbits this. Are payment Gateways different?
     /// ToDo: Refactor
     /// ToDo: Log
@@ -181,7 +182,7 @@ namespace PaymentGateway.Application.Services.Payments.ProcessPayment
                 await _writeOnlyStorage.PaymentResponseWriteRepository
                                             .SaveAsync(paymentResponse);
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }

@@ -2,6 +2,9 @@
 
 namespace PaymentGateway.Application.DTOs.Banks
 {
+    /// <summary>
+    /// Application will fill and forward the following model to the acquiring bank to process a payment.
+    /// </summary>
     public class PaymentRequestDto
     {
         public string GatewayUniqueRequestId { get; set; }

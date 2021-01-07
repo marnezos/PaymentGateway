@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
 {
+    /// <summary>
+    /// DB Model for Paymen Responses
+    /// </summary>
     public class PaymentResponse : DataEntity<Domain.Payments.PaymentResponse>
     {
 

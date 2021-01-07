@@ -2,6 +2,7 @@
 
 namespace PaymentGateway.Domain.Helpers
 {
+    //Used in hashing
     public static class ByteArrayExtensions
     {
         public static string ToHexString(this byte[] array)

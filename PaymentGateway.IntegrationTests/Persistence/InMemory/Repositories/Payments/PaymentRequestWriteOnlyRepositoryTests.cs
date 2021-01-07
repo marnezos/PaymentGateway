@@ -7,8 +7,6 @@ using PaymentGateway.Domain.Merchants;
 using PaymentGateway.Domain.Payments;
 using PaymentGateway.Persistence.InMemory;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PaymentGateway.IntegrationTests.Persistence.InMemory.Repositories.Payments

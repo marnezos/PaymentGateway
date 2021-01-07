@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace PaymentGateway.Application.Services.Payments.PaymentDetails
 {
+    /// <summary>
+    /// One of the two main services. This will query for the payment details.
+    /// </summary>
     public class PaymentDetailsService
     {
         private readonly IPersistentReadOnlyStorage _readOnlyStorage;

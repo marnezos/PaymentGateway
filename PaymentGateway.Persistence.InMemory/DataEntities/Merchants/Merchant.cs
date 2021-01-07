@@ -2,6 +2,9 @@
 
 namespace PaymentGateway.Persistence.InMemory.DataEntities.Merchants
 {
+    /// <summary>
+    /// DB Model for Merchants
+    /// </summary>
     public class Merchant: DataEntity<Domain.Merchants.Merchant>
     {
         [Required, StringLength(50)]

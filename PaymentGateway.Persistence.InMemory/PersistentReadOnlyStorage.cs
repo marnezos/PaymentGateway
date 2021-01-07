@@ -8,6 +8,9 @@ using System;
 
 namespace PaymentGateway.Persistence.InMemory
 {
+    /// <summary>
+    /// Provides full read-only storage functionality. (ISR?)
+    /// </summary>
     public class PersistentReadOnlyStorage : IPersistentReadOnlyStorage
     {
         private readonly bool _disposed = false;

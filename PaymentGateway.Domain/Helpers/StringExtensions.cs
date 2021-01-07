@@ -1,6 +1,9 @@
 ﻿
 namespace PaymentGateway.Domain.Helpers
 {
+    /// <summary>
+    /// Helpers for validation and more
+    /// </summary>
     public static class StringExtensions
     {
         public static bool ContainsOnlyDigits(this string thisString)

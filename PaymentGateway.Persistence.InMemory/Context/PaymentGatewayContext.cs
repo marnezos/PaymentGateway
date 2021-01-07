@@ -5,6 +5,9 @@ using PaymentGateway.Persistence.InMemory.DataEntities.Payments;
 
 namespace PaymentGateway.Persistence.InMemory.Context
 {
+    /// <summary>
+    /// EF Core DB context
+    /// </summary>
     public class PaymentGatewayContext : DbContext
     {
         public DbSet<PaymentRequest> PaymentRequest { get; set; }

@@ -44,7 +44,7 @@ The solution consists of:
     * **Application** - contains the two main services (ProcessPayment & PaymentDetails) as well as DTOs, and interfaces for storage and infrastructure.
 1. **Persistence**
     * **InMemory** - Implements the storage interfaces defined in the application project. Provides separate repositories for reading and writing to the in-memory db. DB is seeded with sample currencies and merchants (to assist with tests).
-1. **API** - provides the restful connection to the outside world. Authenticates and authorizes users via the IS4. Relies on view model validation with data annotations.
+1. **API** - provides the restful connection to the outside world. Authenticates and authorizes users via the IS4. Relies on view model validation with data annotations. Serves as the composition root.
 1. **IdentityServer** - Used as a token service. One client (merchant) is hardcoded.
 1. **Tests**
     * **Unit** - Mostly domain model validations and helper functions tests.

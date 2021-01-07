@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.Persistence.InMemory.Repositories.Economics
 {
+    /// <summary>
+    /// Currency read only repository (implements the ICurrencyReadOnlyRepository as specificed in the application layer)
+    /// </summary>
     public class CurrencyReadOnlyRepository : BaseReadRepository<Domain.Economics.Currency, DataEntities.Economics.Currency>, ICurrencyReadOnlyRepository
     {
         public CurrencyReadOnlyRepository(PaymentGatewayContext context) : base(context) { }

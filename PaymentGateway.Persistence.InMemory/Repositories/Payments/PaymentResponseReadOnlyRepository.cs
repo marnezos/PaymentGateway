@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.Persistence.InMemory.Repositories.Payments
 {
+    /// <summary>
+    /// PaymentRespons read only repository (implements the IPaymentResponseReadOnlyRepository as specificed in the application layer)
+    /// </summary>
     public class PaymentResponseReadOnlyRepository : BaseReadRepository<PaymentResponse, DataEntities.Payments.PaymentResponse>, IPaymentResponseReadOnlyRepository
     {
         public PaymentResponseReadOnlyRepository(PaymentGatewayContext context) : base(context) { }

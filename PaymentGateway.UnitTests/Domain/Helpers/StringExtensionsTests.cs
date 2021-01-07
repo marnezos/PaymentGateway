@@ -1,8 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PaymentGateway.Domain.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PaymentGateway.UnitTests.Domain.Helpers
 {

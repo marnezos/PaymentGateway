@@ -1,12 +1,13 @@
 ﻿using PaymentGateway.Application.DTOs.Banks;
 using PaymentGateway.Application.Interfaces.Bank;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PaymentGateway.Application.Services.Bank
 {
+    /// <summary>
+    /// Will fake a bank, and simulate some delay.
+    /// </summary>
     public class FakeBank : IAcquiringBank
     {
         public async Task<PaymentResponseDto> ProcessPayment(PaymentRequestDto request)

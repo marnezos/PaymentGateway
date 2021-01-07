@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.Application.Services.Payments.ProcessPayment
 {
+    /// <summary>
+    /// Messages for payment processing will be handled here 
+    /// </summary>
     public class ProcessPaymentMessageHandler : IHandleMessages<PaymentProcessRequestDto>
     {
         private readonly IBus _bus;
@@ -25,7 +28,7 @@ namespace PaymentGateway.Application.Services.Payments.ProcessPayment
             _writeOnlyStorage = writeOnlyStorage;
         }
 
-        public async Task Handle(PaymentProcessRequestDto request)
+        public async Task Handle(PaymentProcessRequestDto message)
         {
             IAcquiringBank acquiringBank = new AcquiringBankService(_bus);
             ProcessPaymentService service = new ProcessPaymentService(acquiringBank, _readOnlyStorage, _writeOnlyStorage);
@@ -34,7 +37,7 @@ namespace PaymentGateway.Application.Services.Payments.ProcessPayment
             try
             {
                 response = new ApplicationMessage<ProcessedPaymentStatusDto>();
-                response.Payload = await service.ProcessPayment(request);
+                response.Payload = await service.ProcessPayment(message);
                 response.ServiceSuccess = true;
             }
             catch (Exception ex)
