@@ -12,6 +12,7 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Merchants
 
         public static implicit operator Domain.Merchants.Merchant(Merchant merchant)
         {
+            if (merchant is null) return null;
             return new Domain.Merchants.Merchant(merchant.Id, merchant.Name, merchant.Email);
         }
 

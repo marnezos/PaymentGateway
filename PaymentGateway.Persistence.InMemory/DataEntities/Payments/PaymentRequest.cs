@@ -52,6 +52,7 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
 
         public static implicit operator Domain.Payments.PaymentRequest(PaymentRequest paymentRequest)
         {
+            if (paymentRequest is null) return null;
             return new Domain.Payments.PaymentRequest(paymentRequest.MerchantUniqueRequestId,
                                                       paymentRequest.Merchant,
                                                       new Domain.Cards.Card(paymentRequest.CardNumber, paymentRequest.CardExpirationMonth, paymentRequest.CardExpirationYear, paymentRequest.CardCvv),
@@ -61,6 +62,7 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
 
         public static implicit operator PaymentRequest(Domain.Payments.PaymentRequest paymentRequest)
         {
+            if (paymentRequest is null) return null;
             return new PaymentRequest()
             {
                 Amount = paymentRequest.Amount.Amount,

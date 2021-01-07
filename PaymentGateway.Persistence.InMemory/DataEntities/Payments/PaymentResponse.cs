@@ -26,6 +26,7 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
 
         public static implicit operator Domain.Payments.PaymentResponse(PaymentResponse paymentResponse)
         {
+            if (paymentResponse is null) return null;
             return new Domain.Payments.PaymentResponse(paymentResponse.PaymentRequest, 
                                                        paymentResponse.ResponseId, 
                                                        paymentResponse.Successful, 

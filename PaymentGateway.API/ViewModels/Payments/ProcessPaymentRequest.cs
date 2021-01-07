@@ -34,6 +34,7 @@ namespace PaymentGateway.API.ViewModels.Payments
 
         public static implicit operator PaymentProcessRequestDto(ProcessPaymentRequest request)
         {
+            if (request is null) return null;
             return new PaymentProcessRequestDto()
             {
                 MerchantUniqueRequestId = request.MerchantUniqueRequestId,

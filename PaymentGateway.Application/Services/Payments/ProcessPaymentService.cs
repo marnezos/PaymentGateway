@@ -13,6 +13,8 @@ namespace PaymentGateway.Application.Services.Payments
 {
     /// <summary>
     /// Main business functionality
+    /// ToDo: Refactor
+    /// ToDo: Log
     /// </summary>
     public class ProcessPaymentService
     {
@@ -34,80 +36,182 @@ namespace PaymentGateway.Application.Services.Payments
             ProcessedPaymentStatusDto reply = new ProcessedPaymentStatusDto();
             reply.RequestId = message.MerchantUniqueRequestId;
 
-            //1. Retrieve merchant from storage
-            Merchant merchant = await _readOnlyStorage.MerchantReadRepository.GetByIdAsync(message.MerchantId);
-            if (merchant is null)
+            PaymentServiceBillOfMaterials billOfMaterials = new PaymentServiceBillOfMaterials(message);
+
+            PaymentServiceSequenceStep[] steps = new[]
             {
-                reply.Success = false;
-                reply.ErrorMessage = "Merchant Id not found.";
-                //ToDo: Log
+                new PaymentServiceSequenceStep(){ExecuteStep = GetMerchant, ErrorMessage = "Merchant identity not found."},
+                new PaymentServiceSequenceStep(){ExecuteStep = EnsureRequestUnique, ErrorMessage = "Request Id must be unique."},
+                new PaymentServiceSequenceStep(){ExecuteStep = GetCurrency, ErrorMessage = "Invalid currency or currency not supported."},
+                new PaymentServiceSequenceStep(){ExecuteStep = GetCard, ErrorMessage = "Invalid card details."},
+                new PaymentServiceSequenceStep(){ExecuteStep = GetMoneyAmount, ErrorMessage = "Invalid amount."},
+                new PaymentServiceSequenceStep(){ExecuteStep = GetPaymentRequest, ErrorMessage = "Internal payment error."},
+                new PaymentServiceSequenceStep(){ExecuteStep = StorePaymentRequest, ErrorMessage = "Error while storing request."},
+                new PaymentServiceSequenceStep(){ExecuteStep = GetStoredPaymentRequest, ErrorMessage = "Error while validating stored requesst."},
+                new PaymentServiceSequenceStep(){ExecuteStep = SendToBankToProcessPayment, ErrorMessage = "Error while dispatching request to the acquiring bank."},
+                new PaymentServiceSequenceStep(){ExecuteStep = StorePaymentResponse, ErrorMessage = "Error while storing response. Contact support."},
+            };
+
+            foreach (PaymentServiceSequenceStep step in steps)
+            {
+                if (!await step.ExecuteStep(billOfMaterials))
+                {
+                    reply.Success = false;
+                    reply.ErrorMessage = step.ErrorMessage;
+                    reply.Timestamp = DateTime.Now;
+                    return reply;
+                }
             }
 
-            //2. Retrieve currency from storage
-            Currency currency = await _readOnlyStorage.CurrencyReadRepository.GetByNameAsync(message.CurrencyIso4217);
-            if (merchant is null)
-            {
-                reply.Success = false;
-                reply.ErrorMessage = "Currency not found.";
-                //ToDo: Log
-            }
-
-            //3. Store Request in Storage and get id
-            //Setup
-            Card card = new Card(message.CardNumber, message.CardExpirationMonth, message.CardExpirationYear, message.CardCvv);
-            MoneyAmount amount = new MoneyAmount(currency, message.Amount);
-            PaymentRequest paymentRequest = new PaymentRequest(message.MerchantUniqueRequestId, merchant, card, amount, DateTime.Now);
-
-            if (!paymentRequest.IsValid)
-            {
-                reply.Success = false;
-                reply.ErrorMessage = string.Join(',',paymentRequest.Validate().ValidationErrors);
-            }
-
-            //Store
-            try
-            {
-                await _writeOnlyStorage.PaymentRequestWriteRepository.SaveAsync(paymentRequest);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            //Retrieve back to ensure correct storage
-            PaymentRequest storedRequest = await _readOnlyStorage.PaymentRequestReadRepository
-                                                    .GetByMerchantIdAndMerchantUniqueIdAsync(merchant.Id, message.MerchantUniqueRequestId);
-
-            if (storedRequest is null)
-            {
-                reply.Success = false;
-                reply.ErrorMessage = "Unknown error (5001).";
-                //ToDo: Log
-            }
-            else if (storedRequest.UniqueHash != paymentRequest.UniqueHash)
-            {
-                reply.Success = false;
-                reply.ErrorMessage = "Unknown error (5002).";
-                //ToDo: Log
-            }
-            else
-            {
-                //4. Forward request to the bank
-                DTOs.Banks.PaymentResponseDto bankResponse = await _bank.ProcessPayment(storedRequest);
-
-                //5. Store reply 
-                PaymentResponse paymentResponse = bankResponse;
-                paymentResponse.PaymentRequest = storedRequest;
-                
-                await _writeOnlyStorage.PaymentResponseWriteRepository
-                                            .SaveAsync(paymentResponse);
-
-                reply.Success = paymentResponse.Successful;
-                reply.ResponseId = paymentResponse.ResponseId;
-                reply.Timestamp = paymentResponse.TimeStamp;
-            }
+            reply.Success = billOfMaterials.PaymentResponse.Successful;
+            reply.ResponseId = billOfMaterials.PaymentResponse.ResponseId;
+            reply.Timestamp = billOfMaterials.PaymentResponse.TimeStamp;
             return reply;
         }
 
+        private async Task<bool> GetMerchant(PaymentServiceBillOfMaterials billOfMaterials)
+        {
+            try 
+            {
+                billOfMaterials.Merchant = await _readOnlyStorage.MerchantReadRepository.GetByIdAsync(billOfMaterials.Request.MerchantId);
+                return (billOfMaterials.Merchant != null && billOfMaterials.Merchant.IsValid);
+            }
+            catch { return false; }
+        }
+
+        private async Task<bool> GetCurrency(PaymentServiceBillOfMaterials billOfMaterials)
+        {
+            try
+            {
+                billOfMaterials.Currency = await _readOnlyStorage.CurrencyReadRepository.GetByNameAsync(billOfMaterials.Request.CurrencyIso4217);
+                return (billOfMaterials.Currency != null && billOfMaterials.Currency.IsValid);
+            }
+            catch { return false; }
+        }
+
+        private async Task<bool> EnsureRequestUnique(PaymentServiceBillOfMaterials billOfMaterials)
+        {
+            try
+            {
+                PaymentRequest existingRequest = await _readOnlyStorage.PaymentRequestReadRepository.GetByMerchantIdAndMerchantUniqueIdAsync(billOfMaterials.Merchant.Id,
+                                                                                                                    billOfMaterials.Request.MerchantUniqueRequestId);
+
+                return (existingRequest is null);
+            }
+            catch { return false; }
+        }
+
+        private async Task<bool> GetCard(PaymentServiceBillOfMaterials billOfMaterials)
+        {
+            try
+            {
+                billOfMaterials.Card = new Card(billOfMaterials.Request.CardNumber,
+                                                billOfMaterials.Request.CardExpirationMonth,
+                                                billOfMaterials.Request.CardExpirationYear,
+                                                billOfMaterials.Request.CardCvv);
+
+                return (billOfMaterials.Card != null);
+            }
+            catch { return false; }
+        }
+
+        private async Task<bool> GetMoneyAmount(PaymentServiceBillOfMaterials billOfMaterials)
+        {
+            try
+            {
+                billOfMaterials.MoneyAmount = new MoneyAmount(billOfMaterials.Currency, billOfMaterials.Request.Amount);
+                return (billOfMaterials.MoneyAmount != null);
+            }
+            catch { return false; }
+        }
+
+        private async Task<bool> GetPaymentRequest(PaymentServiceBillOfMaterials billOfMaterials)
+        {
+            try
+            {
+                billOfMaterials.PaymentRequest = new PaymentRequest(billOfMaterials.Request.MerchantUniqueRequestId,
+                                                                    billOfMaterials.Merchant,
+                                                                    billOfMaterials.Card,
+                                                                    billOfMaterials.MoneyAmount,
+                                                                    DateTime.Now);
+                return (billOfMaterials.PaymentRequest != null && billOfMaterials.PaymentRequest.IsValid);
+            }
+            catch { return false; }
+        }
+
+        private async Task<bool> StorePaymentRequest(PaymentServiceBillOfMaterials billOfMaterials)
+        {
+            try
+            {
+                await _writeOnlyStorage.PaymentRequestWriteRepository.SaveAsync(billOfMaterials.PaymentRequest);
+                return true;
+            }
+            catch { return false; }
+        }
+
+        private async Task<bool> GetStoredPaymentRequest(PaymentServiceBillOfMaterials billOfMaterials)
+        {
+            try
+            {
+                billOfMaterials.StoredRequest = await _readOnlyStorage.PaymentRequestReadRepository
+                                                        .GetByMerchantIdAndMerchantUniqueIdAsync(billOfMaterials.Merchant.Id, billOfMaterials.Request.MerchantUniqueRequestId);
+
+                return (billOfMaterials.StoredRequest != null && (billOfMaterials.StoredRequest.UniqueHash == billOfMaterials.PaymentRequest.UniqueHash));
+            }
+            catch { return false; }
+
+        }
+
+        private async Task<bool> SendToBankToProcessPayment(PaymentServiceBillOfMaterials billOfMaterials)
+        {
+            try
+            {
+                billOfMaterials.PaymentResponse = await _bank.ProcessPayment(billOfMaterials.StoredRequest);
+                return (billOfMaterials.PaymentResponse != null);
+            }
+            catch { return false; }
+        }
+
+        private async Task<bool> StorePaymentResponse(PaymentServiceBillOfMaterials billOfMaterials)
+        {
+            PaymentResponse paymentResponse = billOfMaterials.PaymentResponse;
+            paymentResponse.PaymentRequest = billOfMaterials.StoredRequest;
+
+            try
+            {
+                await _writeOnlyStorage.PaymentResponseWriteRepository
+                                            .SaveAsync(paymentResponse);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
+
+    class PaymentServiceBillOfMaterials
+    {
+        public PaymentServiceBillOfMaterials(PaymentProcessRequestDto request)
+        {
+            Request = request;
+        }
+        public PaymentProcessRequestDto Request { get; }
+        public Merchant Merchant { get; set; }
+        public Currency Currency { get; set; }
+        public Card Card { get; set; }
+        public MoneyAmount MoneyAmount { get; set; }
+        public PaymentRequest PaymentRequest { get; set; }
+        public PaymentRequest StoredRequest { get; set; }
+        public PaymentResponse PaymentResponse { get; set; }
+
+    }
+
+    class PaymentServiceSequenceStep
+    {
+        public Func<PaymentServiceBillOfMaterials, Task<bool>> ExecuteStep { get; set; }
+        public string ErrorMessage { get; set; }
+    }
+
 }

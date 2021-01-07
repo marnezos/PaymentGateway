@@ -24,6 +24,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Logging;
 using PaymentGateway.Application.Services.Bank;
+using Rebus.Retry.Simple;
 
 namespace PaymentGateway.API
 {
@@ -50,6 +51,7 @@ namespace PaymentGateway.API
             services.AddRebus(configure => configure
                 .Logging(l => l.None())
                 .Options(o=>o.EnableSynchronousRequestReply())
+                .Options(o=>o.SimpleRetryStrategy(maxDeliveryAttempts:1))
                 .Transport(t => t.UseInMemoryTransport(new InMemNetwork(false), Configuration.GetValue<string>("SBQueueName")))
                 .Routing(r => r.TypeBased().MapAssemblyOf<PaymentProcessRequestDto>(Configuration.GetValue<string>("SBQueueName")))
             );
