@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace PaymentGateway.Application.DTOs.Payments
+namespace PaymentGateway.Application.DTOs.Payments.ProcessPayment
 {
     /// <summary>
     /// Message format for the response to the merchant

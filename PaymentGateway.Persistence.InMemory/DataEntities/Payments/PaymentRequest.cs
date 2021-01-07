@@ -8,8 +8,6 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
 {
     public class PaymentRequest : DataEntity<Domain.Payments.PaymentRequest>
     {
-        [Key]
-        public virtual int Id { get; set; }
 
         [Required]
         public virtual int MerchantId { get; set; }
@@ -53,7 +51,8 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
         public static implicit operator Domain.Payments.PaymentRequest(PaymentRequest paymentRequest)
         {
             if (paymentRequest is null) return null;
-            return new Domain.Payments.PaymentRequest(paymentRequest.MerchantUniqueRequestId,
+            return new Domain.Payments.PaymentRequest(paymentRequest.Id,
+                                                      paymentRequest.MerchantUniqueRequestId,
                                                       paymentRequest.Merchant,
                                                       new Domain.Cards.Card(paymentRequest.CardNumber, paymentRequest.CardExpirationMonth, paymentRequest.CardExpirationYear, paymentRequest.CardCvv),
                                                       new Domain.Economics.MoneyAmount(paymentRequest.Currency, paymentRequest.Amount),
@@ -65,6 +64,7 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
             if (paymentRequest is null) return null;
             return new PaymentRequest()
             {
+                Id = paymentRequest.Id,
                 Amount = paymentRequest.Amount.Amount,
                 CardCvv = paymentRequest.Card.CVV,
                 CardExpirationMonth = paymentRequest.Card.ExpirationMonth,
@@ -72,7 +72,6 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
                 CardNumber = paymentRequest.Card.Number,
                 CurrencyId = paymentRequest.Amount.Currency.Id,
                 GatewayUniqueRequestId = paymentRequest.UniqueHash,
-                Id = paymentRequest.Id,
                 MerchantId = paymentRequest.Merchant.Id,
                 MerchantUniqueRequestId = paymentRequest.MerchantUniqueRequestId,
                 Timestamp = paymentRequest.Timestamp

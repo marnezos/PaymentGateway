@@ -37,10 +37,10 @@ namespace PaymentGateway.IntegrationTests.Persistence.InMemory.Repositories.Paym
         {
             Merchant merchant = await _persistentReadOnlyStorage.MerchantReadRepository.GetByIdAsync(1);
             Currency currency = await _persistentReadOnlyStorage.CurrencyReadRepository.GetByNameAsync("EUR");
-            Card card = new Card("1234", 1, 2021, "123");
+            Card card = new Card("4111111111111111", 1, 2021, "123");
             MoneyAmount amount = new MoneyAmount(currency, 42.42M);
             string uniqueRequestId = Guid.NewGuid().ToString();
-            PaymentRequest request = new PaymentRequest(uniqueRequestId, merchant, card, amount, DateTime.Now);
+            PaymentRequest request = new PaymentRequest(0,uniqueRequestId, merchant, card, amount, DateTime.Now);
 
             await _persistentWriteOnlyStorage.PaymentRequestWriteRepository.SaveAsync(request);
             PaymentRequest storedRequest = await _persistentReadOnlyStorage.PaymentRequestReadRepository.GetByMerchantIdAndMerchantUniqueIdAsync(merchant.Id, uniqueRequestId);

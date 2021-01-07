@@ -24,6 +24,7 @@ namespace PaymentGateway.Persistence.InMemory
         public IMerchantReadOnlyRepository MerchantReadRepository => new MerchantReadOnlyRepository(_dbContext);
 
         public IPaymentRequestReadOnlyRepository PaymentRequestReadRepository => new PaymentRequestReadOnlyRepository(_dbContext);
+        public IPaymentResponseReadOnlyRepository PaymentResponseReadOnlyRepository => new PaymentResponseReadOnlyRepository(_dbContext);
 
         public void Dispose()
         {

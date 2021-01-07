@@ -15,9 +15,9 @@ namespace PaymentGateway.Application.DTOs.Banks
             if (paymentResponse is null) return null;
             return new PaymentResponse()
             {
-               ResponseId = paymentResponse.ResponseId,
-               Successful = paymentResponse.Successful,
-               TimeStamp = paymentResponse.Timestamp
+                ResponseId = paymentResponse.ResponseId,
+                Successful = paymentResponse.Successful,
+                Timestamp = paymentResponse.Timestamp
             };
         }
 

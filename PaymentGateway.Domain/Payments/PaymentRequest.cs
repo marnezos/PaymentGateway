@@ -23,7 +23,6 @@ namespace PaymentGateway.Domain.Payments
         /// </summary>
         public string MerchantUniqueRequestId { get; set; }
         public DateTime Timestamp { get; set; }
-
         public PaymentRequest() { }
 
         /// <summary>
@@ -34,8 +33,9 @@ namespace PaymentGateway.Domain.Payments
         /// <param name="card">Card to charge.</param>
         /// <param name="amount">Amount to charge.</param>
         /// <param name="timestamp">Request timestamp.</param>
-        public PaymentRequest(string merchantUniqueRequestId, Merchant merchant, Card card, MoneyAmount amount, DateTime timestamp)
+        public PaymentRequest(int id, string merchantUniqueRequestId, Merchant merchant, Card card, MoneyAmount amount, DateTime timestamp)
         {
+            Id = id;
             MerchantUniqueRequestId = merchantUniqueRequestId;
             Merchant = merchant;
             Card = card;
@@ -45,10 +45,10 @@ namespace PaymentGateway.Domain.Payments
 
         public string UniqueHash
         {
+            //Id doesn't participate in hash
             get
             {
-                string hashable = string.Join('-', Id.ToString(),
-                                                    MerchantUniqueRequestId,
+                string hashable = string.Join('-',  MerchantUniqueRequestId,
                                                     Merchant.ToString(),
                                                     Card.ToString(),
                                                     Amount.ToString(),

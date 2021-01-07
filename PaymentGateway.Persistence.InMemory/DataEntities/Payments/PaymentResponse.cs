@@ -6,8 +6,6 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
 {
     public class PaymentResponse : DataEntity<Domain.Payments.PaymentResponse>
     {
-        [Key]
-        public virtual int Id { get; set; }
 
         [Required]
         public int PaymentRequestId { get; set; }
@@ -43,7 +41,7 @@ namespace PaymentGateway.Persistence.InMemory.DataEntities.Payments
             PaymentRequest = domainObject.PaymentRequest;
             ResponseId = domainObject.ResponseId;
             Successful = domainObject.Successful;
-            TimeStamp = domainObject.TimeStamp;
+            TimeStamp = domainObject.Timestamp;
         }
     }
 }

@@ -8,5 +8,6 @@ namespace PaymentGateway.Application.Interfaces.Storage.Read
         ICurrencyReadOnlyRepository CurrencyReadRepository { get; }
         IMerchantReadOnlyRepository MerchantReadRepository { get; }
         IPaymentRequestReadOnlyRepository PaymentRequestReadRepository { get; }
+        IPaymentResponseReadOnlyRepository PaymentResponseReadOnlyRepository { get; }
     }
 }

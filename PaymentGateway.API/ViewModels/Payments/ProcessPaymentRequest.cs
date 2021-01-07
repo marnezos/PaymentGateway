@@ -1,4 +1,4 @@
-﻿using PaymentGateway.Application.DTOs.Payments;
+﻿using PaymentGateway.Application.DTOs.Payments.ProcessPayment;
 using System;
 using System.ComponentModel.DataAnnotations;
 

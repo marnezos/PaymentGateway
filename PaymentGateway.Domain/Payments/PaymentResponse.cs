@@ -11,7 +11,7 @@ namespace PaymentGateway.Domain.Payments
         public PaymentRequest PaymentRequest { get; set; }
         public Guid ResponseId { get; set; }
         public bool Successful { get; set; }
-        public DateTime TimeStamp { get; set; }
+        public DateTime Timestamp { get; set; }
 
         public PaymentResponse() { }
         public PaymentResponse(PaymentRequest paymentRequest, Guid responseId, bool successful, DateTime timestamp)
@@ -19,7 +19,7 @@ namespace PaymentGateway.Domain.Payments
             PaymentRequest = paymentRequest;
             ResponseId = responseId;
             Successful = successful;
-            TimeStamp = timestamp;
+            Timestamp = timestamp;
         }
 
         public override ValidationResults Validate()

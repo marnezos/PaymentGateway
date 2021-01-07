@@ -22,5 +22,12 @@ namespace PaymentGateway.Domain.Helpers
             }
             return true;
         }
+
+        public static string Obfuscate(this string thisString, int visibleFromRight)
+        {
+            if (thisString.Length <= visibleFromRight) return thisString;
+            return $"{new string('*', thisString.Length - visibleFromRight)}{thisString.Substring(thisString.Length-visibleFromRight, visibleFromRight)}";
+        }
+
     }
 }

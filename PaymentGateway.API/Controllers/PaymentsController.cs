@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PaymentGateway.API.ViewModels.Payments;
-using PaymentGateway.Application.DTOs.Payments;
+using PaymentGateway.Application.DTOs;
+using PaymentGateway.Application.DTOs.Payments.PaymentDetails;
+using PaymentGateway.Application.DTOs.Payments.ProcessPayment;
 using Rebus;
 using Rebus.Bus;
 using System;
@@ -20,9 +22,33 @@ namespace PaymentGateway.API.Controllers
             _bus = bus;
         }
 
+        [HttpGet]
+        [Route("{request}")]
+        [Authorize(Policy = "MerchantsOnly")]
+        public async Task<ActionResult<PaymentDetailsResponse>> GetAsync([FromQuery] PaymentDetailsRequest request)
+        {
+
+            ClaimsPrincipal currentUser = User;
+            string serial = currentUser.FindFirst(ClaimTypes.SerialNumber).Value;
+
+            PaymentDetailsRequestDto requestDto = request;
+            requestDto.MerchantId = int.Parse(serial);
+
+            //Assume max timeout @ 60 secs
+            ApplicationMessage<PaymentDetailsResponseDto> reply = await _bus.SendRequest<ApplicationMessage<PaymentDetailsResponseDto>>(requestDto, null, TimeSpan.FromSeconds(60));
+            if (reply.ServiceSuccess)
+            {
+                return Ok(reply.Payload);
+            }
+            else
+            {
+                return new NotFoundObjectResult(new { Error=reply.ErrorMessage });
+            }
+        }
+
         [HttpPost]
         [Authorize(Policy = "MerchantsOnly")]
-        public async Task<ProcessedPaymentStatusDto> PostAsync([FromBody] ProcessPaymentRequest request)
+        public async Task<ActionResult<ProcessPaymentResponse>> PostAsync([FromBody] ProcessPaymentRequest request)
         {
             ClaimsPrincipal currentUser = User;
             string serial = currentUser.FindFirst(ClaimTypes.SerialNumber).Value;
@@ -31,9 +57,16 @@ namespace PaymentGateway.API.Controllers
             requestDto.MerchantId = int.Parse(serial);
 
             //Assume max timeout @ 60 secs
-            ProcessedPaymentStatusDto reply = await _bus.SendRequest<ProcessedPaymentStatusDto>(requestDto, null, TimeSpan.FromSeconds(60));
+            ApplicationMessage<ProcessedPaymentStatusDto> reply = await _bus.SendRequest<ApplicationMessage<ProcessedPaymentStatusDto>>(requestDto, null, TimeSpan.FromSeconds(60));
+            if (reply.ServiceSuccess)
+            {
+                return Ok(reply.Payload);
+            }
+            else
+            {
+                return new BadRequestObjectResult(new { Error = reply.ErrorMessage });
+            }
 
-            return reply;
         }
 
     }

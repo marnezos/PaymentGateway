@@ -16,7 +16,7 @@ namespace PaymentGateway.Application.Services.Bank
         }
         public async Task<PaymentResponseDto> ProcessPayment(PaymentRequestDto request)
         {
-            PaymentResponseDto reply = await _bus.SendRequest<PaymentResponseDto>(request, null, TimeSpan.FromSeconds(1));
+            PaymentResponseDto reply = await _bus.SendRequest<PaymentResponseDto>(request, null, TimeSpan.FromSeconds(10));
             return reply;
         }
     }

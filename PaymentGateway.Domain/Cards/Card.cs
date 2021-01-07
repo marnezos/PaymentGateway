@@ -47,7 +47,11 @@ namespace PaymentGateway.Domain.Cards
             {
                 throw new ArgumentOutOfRangeException("number", "Invalid card number. Card numbers should only contain digits.");
             }
-            else if (number.Length > 30)
+            else if (number.Length < 12) //Assumption: Some Maestro's have 12 digits
+            {
+                throw new ArgumentOutOfRangeException("number", "Invalid card number. Card number length may not be less than 12 characters.");
+            }
+            else if (number.Length > 30)// Assumption: Maximum number found is 19. I set it at 30 to accomodate next generation cards (?)
             {
                 throw new ArgumentOutOfRangeException("number", "Invalid card number. Card number length may not exceed 30 characters.");
             }

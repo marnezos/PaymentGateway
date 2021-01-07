@@ -87,5 +87,13 @@ namespace PaymentGateway.UnitTests.Domain.Helpers
             Assert.IsFalse(hasOnlyLetters);
         }
 
+        [TestMethod]
+        public void Should_Obfuscate_When_ADummyCardNumberIsGiven()
+        {
+            string letters = "5514528498743214";
+            Assert.AreEqual("************3214", letters.Obfuscate(4));
+        }
+
+
     }
 }

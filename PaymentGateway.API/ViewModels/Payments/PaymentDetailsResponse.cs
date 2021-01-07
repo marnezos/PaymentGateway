@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace PaymentGateway.Application.DTOs.Payments
+namespace PaymentGateway.API.ViewModels.Payments
 {
-    public class PaymentProcessRequestDto
+    public class PaymentDetailsResponse
     {
-        public int MerchantId { get; set; }
         public string MerchantUniqueRequestId { get; set; }
         public string CardNumber { get; set; }
         public byte CardExpirationMonth { get; set; }
@@ -14,5 +11,10 @@ namespace PaymentGateway.Application.DTOs.Payments
         public string CardCvv { get; set; }
         public string CurrencyIso4217 { get; set; }
         public decimal Amount { get; set; }
+        public Guid ResponseId { get; set; }
+        public bool Success { get; set; }
+        public string ErrorMessage { get; set; }
+        public DateTime Timestamp { get; set; }
+
     }
 }

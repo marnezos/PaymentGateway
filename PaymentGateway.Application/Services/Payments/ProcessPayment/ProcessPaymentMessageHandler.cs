@@ -1,4 +1,5 @@
-﻿using PaymentGateway.Application.DTOs.Payments;
+﻿using PaymentGateway.Application.DTOs;
+using PaymentGateway.Application.DTOs.Payments.ProcessPayment;
 using PaymentGateway.Application.Interfaces.Bank;
 using PaymentGateway.Application.Interfaces.Storage.Read;
 using PaymentGateway.Application.Interfaces.Storage.Write;
@@ -6,11 +7,9 @@ using PaymentGateway.Application.Services.Bank;
 using Rebus.Bus;
 using Rebus.Handlers;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentGateway.Application.Services.Payments
+namespace PaymentGateway.Application.Services.Payments.ProcessPayment
 {
     public class ProcessPaymentMessageHandler : IHandleMessages<PaymentProcessRequestDto>
     {
@@ -26,11 +25,27 @@ namespace PaymentGateway.Application.Services.Payments
             _writeOnlyStorage = writeOnlyStorage;
         }
 
-        public async Task Handle(PaymentProcessRequestDto message)
+        public async Task Handle(PaymentProcessRequestDto request)
         {
             IAcquiringBank acquiringBank = new AcquiringBankService(_bus);
-            ProcessPaymentService service = new ProcessPaymentService(acquiringBank,_readOnlyStorage, _writeOnlyStorage);
-            await _bus.Reply(await service.ProcessPayment(message)); 
+            ProcessPaymentService service = new ProcessPaymentService(acquiringBank, _readOnlyStorage, _writeOnlyStorage);
+            ApplicationMessage<ProcessedPaymentStatusDto> response;
+
+            try
+            {
+                response = new ApplicationMessage<ProcessedPaymentStatusDto>();
+                response.Payload = await service.ProcessPayment(request);
+                response.ServiceSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                response = new ApplicationMessage<ProcessedPaymentStatusDto>()
+                {
+                    ServiceSuccess = false,
+                    ErrorMessage = ex.Message
+                };
+            }
+            await _bus.Reply(response);
         }
     }
 }

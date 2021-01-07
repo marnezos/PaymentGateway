@@ -1,4 +1,4 @@
-﻿using PaymentGateway.Application.DTOs.Payments;
+﻿using PaymentGateway.Application.DTOs.Payments.ProcessPayment;
 using PaymentGateway.Application.Interfaces.Bank;
 using PaymentGateway.Application.Interfaces.Storage.Read;
 using PaymentGateway.Application.Interfaces.Storage.Write;
@@ -9,10 +9,11 @@ using PaymentGateway.Domain.Payments;
 using System;
 using System.Threading.Tasks;
 
-namespace PaymentGateway.Application.Services.Payments
+namespace PaymentGateway.Application.Services.Payments.ProcessPayment
 {
     /// <summary>
     /// Main business functionality
+    /// Assumption: Card details are stored in their entirety. PCI prohbits this. Are payment Gateways different?
     /// ToDo: Refactor
     /// ToDo: Log
     /// </summary>
@@ -56,16 +57,13 @@ namespace PaymentGateway.Application.Services.Payments
             {
                 if (!await step.ExecuteStep(billOfMaterials))
                 {
-                    reply.Success = false;
-                    reply.ErrorMessage = step.ErrorMessage;
-                    reply.Timestamp = DateTime.Now;
-                    return reply;
+                    throw new InvalidOperationException(step.ErrorMessage);
                 }
             }
 
             reply.Success = billOfMaterials.PaymentResponse.Successful;
             reply.ResponseId = billOfMaterials.PaymentResponse.ResponseId;
-            reply.Timestamp = billOfMaterials.PaymentResponse.TimeStamp;
+            reply.Timestamp = billOfMaterials.PaymentResponse.Timestamp;
             return reply;
         }
 
@@ -129,7 +127,8 @@ namespace PaymentGateway.Application.Services.Payments
         {
             try
             {
-                billOfMaterials.PaymentRequest = new PaymentRequest(billOfMaterials.Request.MerchantUniqueRequestId,
+                billOfMaterials.PaymentRequest = new PaymentRequest(0,
+                                                                    billOfMaterials.Request.MerchantUniqueRequestId,
                                                                     billOfMaterials.Merchant,
                                                                     billOfMaterials.Card,
                                                                     billOfMaterials.MoneyAmount,
