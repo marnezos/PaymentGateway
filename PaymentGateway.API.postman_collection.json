@@ -1,0 +1,201 @@
+{
+	"info": {
+		"_postman_id": "94712c89-d9f9-4b92-abc8-cd1f80abd2e3",
+		"name": "PaymentGateway.API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Payment",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "paymentgateway.api",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "merchant1",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Phys",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "supersecurepassword",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": false,
+							"type": "boolean"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://www.getpostman.com/oath2/callback",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://localhost:4999/connect/authorize",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://localhost:4999/connect/token",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cardNumber\": \"123123\",\r\n  \"cardExpirationMonth\": 1,\r\n  \"cardExpirationYear\": 2022,\r\n  \"cardCvv\": \"001\",\r\n  \"currencyIso4217\": \"EUR\",\r\n  \"amount\":0.12\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/Payments",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"Payments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PaymentDetails",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "paymentgateway.api",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "merchant1",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Phys",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "supersecurepassword",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": false,
+							"type": "boolean"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://www.getpostman.com/oath2/callback",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://localhost:4999/connect/authorize",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://localhost:4999/connect/token",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/Payments/PaymentDetailsRequest?MerchantUniqueRequestId=1123111133",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"Payments",
+						"PaymentDetailsRequest"
+					],
+					"query": [
+						{
+							"key": "MerchantUniqueRequestId",
+							"value": "1123111133"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
